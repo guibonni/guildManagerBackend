@@ -22,9 +22,22 @@ namespace GCGuildManager.Controllers
 
         // GET: api/Personagens
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Personagem>>> GetPersonagens()
+        public async Task<List<Personagem>> GetPersonagens()
         {
-            return await _context.Personagens.ToListAsync();
+            var innerJoin = from p in _context.Personagens
+                            join c in _context.Classes on p.classe.id equals c.id
+                            select new Personagem
+                            {
+                                id = p.id,
+                                nome = p.nome,
+                                classe = new Classe
+                                {
+                                    id = c.id,
+                                    nome = c.nome
+                                }
+                            };
+            
+            return await innerJoin.ToListAsync();
         }
 
         // GET: api/Personagens/5
