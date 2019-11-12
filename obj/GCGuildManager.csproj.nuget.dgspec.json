@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\guilherme.castro\\Documents\\Faculdade\\GCGuildManager\\GCGuildManager.csproj": {}
+    "/home/gui/Documentos/Faculdade/DotNet/guildManagerBackend/GCGuildManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\guilherme.castro\\Documents\\Faculdade\\GCGuildManager\\GCGuildManager.csproj": {
+    "/home/gui/Documentos/Faculdade/DotNet/guildManagerBackend/GCGuildManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\guilherme.castro\\Documents\\Faculdade\\GCGuildManager\\GCGuildManager.csproj",
+        "projectUniqueName": "/home/gui/Documentos/Faculdade/DotNet/guildManagerBackend/GCGuildManager.csproj",
         "projectName": "GCGuildManager",
-        "projectPath": "C:\\Users\\guilherme.castro\\Documents\\Faculdade\\GCGuildManager\\GCGuildManager.csproj",
-        "packagesPath": "C:\\Users\\guilherme.castro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\guilherme.castro\\Documents\\Faculdade\\GCGuildManager\\obj\\",
+        "projectPath": "/home/gui/Documentos/Faculdade/DotNet/guildManagerBackend/GCGuildManager.csproj",
+        "packagesPath": "/home/gui/.nuget/packages/",
+        "outputPath": "/home/gui/Documentos/Faculdade/DotNet/guildManagerBackend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\guilherme.castro\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/gui/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
@@ -83,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }
