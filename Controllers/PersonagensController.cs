@@ -44,10 +44,22 @@ namespace GCGuildManager.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Personagem>> GetPersonagem(long id)
         {
-            var personagem = await _context.Personagens.FindAsync(id);
+            var innerJoin = from p in _context.Personagens where p.id == id
+                            join c in _context.Classes on p.classe.id equals c.id
+                            select new Personagem
+                            {
+                                id = p.id,
+                                nome = p.nome,
+                                classe = new Classe
+                                {
+                                    id = c.id,
+                                    nome = c.nome
+                                }
+                            };
+            
+            var personagem = await innerJoin.FirstOrDefaultAsync();
 
-            if (personagem == null)
-            {
+            if (personagem == null) {
                 return NotFound();
             }
 
