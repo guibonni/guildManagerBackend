@@ -24,14 +24,32 @@ namespace GCGuildManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Membro>>> GetMembros()
         {
-            return await _context.Membros.ToListAsync();
+            var query = from m in _context.Membros
+                        join c in _context.Cargos on m.cargo.id equals c.id
+                        select new Membro
+                        {
+                            id = m.id,
+                            nome = m.nome,
+                            cargo = new Cargo { id = c.id, nome = c.nome }
+                        };
+
+            return await query.ToListAsync();
         }
 
         // GET: api/Membros/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Membro>> GetMembro(long id)
         {
-            var membro = await _context.Membros.FindAsync(id);
+            var query = from m in _context.Membros where m.id == id
+                        join c in _context.Cargos on m.cargo.id equals c.id
+                        select new Membro
+                        {
+                            id = m.id,
+                            nome = m.nome,
+                            cargo = new Cargo { id = c.id, nome = c.nome }
+                        };
+
+            var membro = await query.FirstOrDefaultAsync();
 
             if (membro == null)
             {

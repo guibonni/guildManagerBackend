@@ -24,17 +24,216 @@ namespace GCGuildManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegistroBatalha>>> GetRegistrosBatalha()
         {
-            return await _context.RegistrosBatalha.ToListAsync();
+            var query = from r in _context.RegistrosBatalha
+                        select new RegistroBatalha
+                        {
+                            id = r.id,
+                            primeiroAtaque = r.primeiroAtaque,
+                            segundoAtaque = r.segundoAtaque,
+                            defesa = r.defesa,
+                            equipeAtaque = new Equipe
+                            {
+                                id = r.equipeAtaque.id,
+                                personagem1 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem1.id,
+                                    nome = r.equipeAtaque.personagem1.nome,
+                                    classe = r.equipeAtaque.personagem1.classe
+                                },
+                                personagem2 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem2.id,
+                                    nome = r.equipeAtaque.personagem2.nome,
+                                    classe = r.equipeAtaque.personagem2.classe
+                                },
+                                personagem3 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem3.id,
+                                    nome = r.equipeAtaque.personagem3.nome,
+                                    classe = r.equipeAtaque.personagem3.classe
+                                },
+                                personagem4 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem4.id,
+                                    nome = r.equipeAtaque.personagem4.nome,
+                                    classe = r.equipeAtaque.personagem4.classe
+                                },
+                                personagem5 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem5.id,
+                                    nome = r.equipeAtaque.personagem5.nome,
+                                    classe = r.equipeAtaque.personagem5.classe
+                                },
+                                personagem6 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem6.id,
+                                    nome = r.equipeAtaque.personagem6.nome,
+                                    classe = r.equipeAtaque.personagem6.classe
+                                },
+                                mascote1 = r.equipeAtaque.mascote1,
+                                mascote2 = r.equipeAtaque.mascote2
+                            },
+                            equipeDefesa = new Equipe
+                            {
+                                id = r.equipeDefesa.id,
+                                personagem1 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem1.id,
+                                    nome = r.equipeDefesa.personagem1.nome,
+                                    classe = r.equipeDefesa.personagem1.classe
+                                },
+                                personagem2 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem2.id,
+                                    nome = r.equipeDefesa.personagem2.nome,
+                                    classe = r.equipeDefesa.personagem2.classe
+                                },
+                                personagem3 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem3.id,
+                                    nome = r.equipeDefesa.personagem3.nome,
+                                    classe = r.equipeDefesa.personagem3.classe
+                                },
+                                personagem4 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem4.id,
+                                    nome = r.equipeDefesa.personagem4.nome,
+                                    classe = r.equipeDefesa.personagem4.classe
+                                },
+                                personagem5 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem5.id,
+                                    nome = r.equipeDefesa.personagem5.nome,
+                                    classe = r.equipeDefesa.personagem5.classe
+                                },
+                                personagem6 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem6.id,
+                                    nome = r.equipeDefesa.personagem6.nome,
+                                    classe = r.equipeDefesa.personagem6.classe
+                                },
+                                mascote1 = r.equipeDefesa.mascote1,
+                                mascote2 = r.equipeDefesa.mascote2
+                            },
+                            membro = new Membro
+                            {
+                                id = r.membro.id,
+                                nome = r.membro.nome,
+                                cargo = r.membro.cargo
+                            },
+                            data = r.data
+                        };
+            
+            return await query.ToListAsync();
         }
 
         // GET: api/RegistrosBatalha/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RegistroBatalha>> GetRegistroBatalha(long id)
         {
-            var registroBatalha = await _context.RegistrosBatalha.FindAsync(id);
+            var query = from r in _context.RegistrosBatalha where r.id == id
+                        select new RegistroBatalha
+                        {
+                            id = r.id,
+                            primeiroAtaque = r.primeiroAtaque,
+                            segundoAtaque = r.segundoAtaque,
+                            defesa = r.defesa,
+                            equipeAtaque = new Equipe
+                            {
+                                id = r.equipeAtaque.id,
+                                personagem1 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem1.id,
+                                    nome = r.equipeAtaque.personagem1.nome,
+                                    classe = r.equipeAtaque.personagem1.classe
+                                },
+                                personagem2 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem2.id,
+                                    nome = r.equipeAtaque.personagem2.nome,
+                                    classe = r.equipeAtaque.personagem2.classe
+                                },
+                                personagem3 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem3.id,
+                                    nome = r.equipeAtaque.personagem3.nome,
+                                    classe = r.equipeAtaque.personagem3.classe
+                                },
+                                personagem4 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem4.id,
+                                    nome = r.equipeAtaque.personagem4.nome,
+                                    classe = r.equipeAtaque.personagem4.classe
+                                },
+                                personagem5 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem5.id,
+                                    nome = r.equipeAtaque.personagem5.nome,
+                                    classe = r.equipeAtaque.personagem5.classe
+                                },
+                                personagem6 = new Personagem
+                                {
+                                    id = r.equipeAtaque.personagem6.id,
+                                    nome = r.equipeAtaque.personagem6.nome,
+                                    classe = r.equipeAtaque.personagem6.classe
+                                },
+                                mascote1 = r.equipeAtaque.mascote1,
+                                mascote2 = r.equipeAtaque.mascote2
+                            },
+                            equipeDefesa = new Equipe
+                            {
+                                id = r.equipeDefesa.id,
+                                personagem1 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem1.id,
+                                    nome = r.equipeDefesa.personagem1.nome,
+                                    classe = r.equipeDefesa.personagem1.classe
+                                },
+                                personagem2 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem2.id,
+                                    nome = r.equipeDefesa.personagem2.nome,
+                                    classe = r.equipeDefesa.personagem2.classe
+                                },
+                                personagem3 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem3.id,
+                                    nome = r.equipeDefesa.personagem3.nome,
+                                    classe = r.equipeDefesa.personagem3.classe
+                                },
+                                personagem4 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem4.id,
+                                    nome = r.equipeDefesa.personagem4.nome,
+                                    classe = r.equipeDefesa.personagem4.classe
+                                },
+                                personagem5 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem5.id,
+                                    nome = r.equipeDefesa.personagem5.nome,
+                                    classe = r.equipeDefesa.personagem5.classe
+                                },
+                                personagem6 = new Personagem
+                                {
+                                    id = r.equipeDefesa.personagem6.id,
+                                    nome = r.equipeDefesa.personagem6.nome,
+                                    classe = r.equipeDefesa.personagem6.classe
+                                },
+                                mascote1 = r.equipeDefesa.mascote1,
+                                mascote2 = r.equipeDefesa.mascote2
+                            },
+                            membro = new Membro
+                            {
+                                id = r.membro.id,
+                                nome = r.membro.nome,
+                                cargo = r.membro.cargo
+                            },
+                            data = r.data
+                        };
+                        
+            var registroBatalha = await query.FirstOrDefaultAsync();
 
-            if (registroBatalha == null)
-            {
+            if (registroBatalha == null) {
                 return NotFound();
             }
 

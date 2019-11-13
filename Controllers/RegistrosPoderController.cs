@@ -24,17 +24,44 @@ namespace GCGuildManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RegistroPoder>>> GetRegistrosPoder()
         {
-            return await _context.RegistrosPoder.ToListAsync();
+            var query = from r in _context.RegistrosPoder
+                        select new RegistroPoder
+                        {
+                            id = r.id,
+                            poder = r.poder,
+                            membro = new Membro
+                            {
+                                id = r.membro.id,
+                                nome = r.membro.nome,
+                                cargo = r.membro.cargo
+                            },
+                            data = r.data
+                        };
+
+            return await query.ToListAsync();
         }
 
         // GET: api/RegistrosPoder/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RegistroPoder>> GetRegistroPoder(long id)
         {
-            var registroPoder = await _context.RegistrosPoder.FindAsync(id);
+            var query = from r in _context.RegistrosPoder where r.id == id
+                        select new RegistroPoder
+                        {
+                            id = r.id,
+                            poder = r.poder,
+                            membro = new Membro
+                            {
+                                id = r.membro.id,
+                                nome = r.membro.nome,
+                                cargo = r.membro.cargo
+                            },
+                            data = r.data
+                        };
 
-            if (registroPoder == null)
-            {
+            var registroPoder = await query.FirstOrDefaultAsync();
+
+            if (registroPoder == null) {
                 return NotFound();
             }
 

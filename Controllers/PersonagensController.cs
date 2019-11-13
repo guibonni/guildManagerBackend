@@ -25,16 +25,11 @@ namespace GCGuildManager.Controllers
         public async Task<List<Personagem>> GetPersonagens()
         {
             var innerJoin = from p in _context.Personagens
-                            join c in _context.Classes on p.classe.id equals c.id
                             select new Personagem
                             {
                                 id = p.id,
                                 nome = p.nome,
-                                classe = new Classe
-                                {
-                                    id = c.id,
-                                    nome = c.nome
-                                }
+                                classe = p.classe
                             };
             
             return await innerJoin.ToListAsync();
@@ -45,16 +40,11 @@ namespace GCGuildManager.Controllers
         public async Task<ActionResult<Personagem>> GetPersonagem(long id)
         {
             var innerJoin = from p in _context.Personagens where p.id == id
-                            join c in _context.Classes on p.classe.id equals c.id
                             select new Personagem
                             {
                                 id = p.id,
                                 nome = p.nome,
-                                classe = new Classe
-                                {
-                                    id = c.id,
-                                    nome = c.nome
-                                }
+                                classe = p.classe
                             };
             
             var personagem = await innerJoin.FirstOrDefaultAsync();
