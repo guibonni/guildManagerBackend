@@ -17,6 +17,8 @@ namespace GCGuildManager
             Configuration = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -29,6 +31,15 @@ namespace GCGuildManager
                         mySqlOptionsAction.ServerVersion(new Version(8, 0, 18), ServerType.MySql);
                     }
             ));
+
+            services.AddCors(options => 
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
         }
@@ -45,11 +56,13 @@ namespace GCGuildManager
 
             app.UseRouting();
 
+            // app.UseCors();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireCors(MyAllowSpecificOrigins);
             });
         }
     }
