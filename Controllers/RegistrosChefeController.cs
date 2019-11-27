@@ -20,21 +20,51 @@ namespace GCGuildManager.Controllers
             _context = context;
         }
 
-        // GET: api/RegistrosChefe
+        // GET: api/RegistrosChefe?resumido=false
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegistroChefe>>> GetRegistrosChefe()
+        public async Task<ActionResult<IEnumerable<Object>>> GetRegistrosChefe([FromQuery] bool resumido)
         {
-            return await _context.RegistrosChefe.ToListAsync();
+            if (resumido) {
+                var query = from r in _context.RegistrosChefe orderby r.data descending
+                            select new
+                            {
+                                id = r.id,
+                                data = r.data.ToShortDateString(),
+                                membro = r.membro.nome,
+                                dano = r.dano
+                            };
+
+                return await query.ToListAsync();
+            } else {
+                var query = from r in _context.RegistrosChefe
+                            select new RegistroChefe
+                            {
+                                id = r.id,
+                                data = r.data,
+                                membro = new Membro { id = r.membro.id, nome = r.membro.nome, cargo = r.membro.cargo },
+                                dano = r.dano
+                            };
+
+                return await query.ToListAsync();
+            }
         }
 
         // GET: api/RegistrosChefe/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RegistroChefe>> GetRegistroChefe(long id)
         {
-            var registroChefe = await _context.RegistrosChefe.FindAsync(id);
+            var query = from r in _context.RegistrosChefe where r.id == id orderby r.data descending
+                        select new RegistroChefe
+                        {
+                            id = r.id,
+                            data = r.data,
+                            membro = new Membro { id = r.membro.id, nome = r.membro.nome, cargo = r.membro.cargo },
+                            dano = r.dano
+                        };
 
-            if (registroChefe == null)
-            {
+            var registroChefe = await query.FirstOrDefaultAsync();
+
+            if (registroChefe == null) {
                 return NotFound();
             }
 

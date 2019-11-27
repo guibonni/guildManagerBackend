@@ -56,13 +56,13 @@ namespace GCGuildManager
 
             app.UseRouting();
 
-            // app.UseCors();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers().RequireCors(MyAllowSpecificOrigins);
+                endpoints.MapControllers();//.RequireCors(MyAllowSpecificOrigins);
             });
         }
     }

@@ -20,21 +20,51 @@ namespace GCGuildManager.Controllers
             _context = context;
         }
 
-        // GET: api/RegistrosPoder
+        // GET: api/RegistrosPoder?resumido=false
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegistroPoder>>> GetRegistrosPoder()
+        public async Task<ActionResult<IEnumerable<Object>>> GetRegistrosPoder([FromQuery] bool resumido)
         {
-            return await _context.RegistrosPoder.ToListAsync();
+            if (resumido) {
+                var query = from r in _context.RegistrosPoder orderby r.data descending
+                            select new
+                            {
+                                id = r.id,
+                                data = r.data.ToShortDateString(),
+                                membro = r.membro.nome,
+                                poder = r.poder
+                            };
+
+                return await query.ToListAsync();
+            } else {
+                var query = from r in _context.RegistrosPoder
+                            select new RegistroPoder
+                            {
+                                id = r.id,
+                                data = r.data,
+                                membro = new Membro { id = r.membro.id, nome = r.membro.nome, cargo = r.membro.cargo },
+                                poder = r.poder
+                            };
+
+                return await query.ToListAsync();
+            }
         }
 
         // GET: api/RegistrosPoder/5
         [HttpGet("{id}")]
         public async Task<ActionResult<RegistroPoder>> GetRegistroPoder(long id)
         {
-            var registroPoder = await _context.RegistrosPoder.FindAsync(id);
+            var query = from r in _context.RegistrosPoder where r.id == id orderby r.data descending
+                        select new RegistroPoder
+                        {
+                            id = r.id,
+                            data = r.data,
+                            membro = new Membro { id = r.membro.id, nome = r.membro.nome, cargo = r.membro.cargo },
+                            poder = r.poder
+                        };
 
-            if (registroPoder == null)
-            {
+            var registroPoder = await query.FirstOrDefaultAsync();
+
+            if (registroPoder == null) {
                 return NotFound();
             }
 

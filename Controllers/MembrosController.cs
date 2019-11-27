@@ -20,24 +20,31 @@ namespace GCGuildManager.Controllers
             _context = context;
         }
 
-        // GET: api/Membros
+        // GET: api/Membros?resumido=false
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Membro>>> GetMembros()
+        public async Task<ActionResult<IEnumerable<Object>>> GetMembros([FromQuery] bool resumido)
         {
-            var query = from m in _context.Membros
-                        join c in _context.Cargos on m.cargo.id equals c.id
-                        select new Membro
-                        {
-                            id = m.id,
-                            nome = m.nome,
-                            cargo = new Cargo
+            if (resumido) {
+                var query = from m in _context.Membros
+                            select new
                             {
-                                id = c.id,
-                                nome = c.nome
-                            }
-                        };
+                                id = m.id,
+                                nome = m.nome,
+                                cargo = m.cargo.nome
+                            };
 
-            return await _context.Membros.ToListAsync();
+                return await query.ToListAsync();
+            } else {
+                var query = from m in _context.Membros
+                            select new Membro
+                            {
+                                id = m.id,
+                                nome = m.nome,
+                                cargo = m.cargo
+                            };
+
+                return await query.ToListAsync();
+            }
         }
 
         // GET: api/Membros/5
